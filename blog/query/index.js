@@ -9,6 +9,7 @@ app.use(cors())
 
 const posts = {}
 
+const eventBusUrl = process.env.EVENT_BUS_URL || 'event-bus-srv:4005'
 
 app.get('/posts', (req, res) => {
   res.send(posts)
@@ -46,7 +47,7 @@ app.post('/events', (req, res) => {
 app.listen(4002, async () => { 
   console.log("listening on port 4002")
   try {
-    const res = await axios.get('http://localhost:4005/events')
+    const res = await axios.get(`http://${eventBusUrl}/events`)
     for (let event of res.data) {
       console.log("Processing event:", event.type)
       handleEvent(event.type, event.data)

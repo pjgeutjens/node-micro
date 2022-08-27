@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: posts-depl
+  name: moderation-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: posts
+      app: moderation
   template:
     metadata:
       labels:
-        app: posts
+        app: moderation
     spec:
       containers:
-      - name: posts
-        image: pjgeutjens/blog_posts:0.1.1
+      - name: moderation
+        image: pjgeutjens/blog_moderation:0.1.1
         imagePullPolicy: Never
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 4000
+        - containerPort: 4003
         env:
           - name: EVENT_BUS_URL
             value: "event-bus-srv:4005"
@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: posts-srv
+  name: moderation-srv
 spec:
   type: ClusterIP
   selector:
-    app: posts
+    app: moderation
   ports:
-  - port: 4000
-    targetPort: 4000
+  - port: 4003
+    targetPort: 4003

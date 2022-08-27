@@ -8,6 +8,8 @@ const app = express();
 app.use(bodyParser.json())
 app.use(cors())
 
+const eventBusUrl = process.env.EVENT_BUS_URL || 'event-bus-srv:4005'
+
 const commentsByPostId = {}
 
 app.get('/posts/:id/comments', (req, res) => {
@@ -22,7 +24,7 @@ app.post('/posts/:id/comments', async (req, res) => {
   comments.push({ id: commentId, content, status: 'pending' })
   commentsByPostId[req.params.id] = comments
 
-  await axios.post('http://localhost:4005/events', {
+  await axios.post(`http://${eventBusUrl}/events`, {
     type: 'CommentCreated',
     data: {
       id: commentId, content, postId: req.params.id, status: 'pending'
@@ -40,7 +42,7 @@ app.post('/events', async (req, res) => {
     const comment = comments.find((comment) => { return comment.id === id })
     comment.status = status
 
-    await axios.post('http://localhost:4005/events', {
+    await axios.post(`http://${eventBusUrl}/events`, {
       type: 'CommentUpdated',
       data: {
         id, status, content, postId

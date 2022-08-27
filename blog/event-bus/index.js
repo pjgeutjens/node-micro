@@ -5,6 +5,12 @@ const axios = require('axios')
 const app = express();
 app.use(bodyParser.json())
 
+const postsUrl = process.env.POSTS_URL || 'posts-srv:4000'
+const commentsUrl = process.env.COMMENTS_URL || 'comments-srv:4001'
+const queryUrl = process.env.QUERY_URL || 'query-srv:4002'
+const moderationUrl = process.env.MODERATION_URL || 'moderation-srv:4003'
+
+
 const events = [];
 
 app.post('/events', (req, res) => {
@@ -12,19 +18,19 @@ app.post('/events', (req, res) => {
 
   events.push(event)
 
-  axios.post('http://localhost:4000/events', event).catch(err => {
+  axios.post(`http://${postsUrl}/events`, event).catch(err => {
     console.log(err)
   })
 
-  axios.post('http://localhost:4001/events', event).catch(err => {
+  axios.post(`http://${commentsUrl}/events`, event).catch(err => {
     console.log(err)
   })
 
-  axios.post('http://localhost:4002/events', event).catch(err => {
+  axios.post(`http://${queryUrl}/events`, event).catch(err => {
     console.log(err)
   })
 
-  axios.post('http://localhost:4003/events', event).catch(err => {
+  axios.post(`http://${moderationUrl}/events`, event).catch(err => {
     console.log(err)
   })
 
@@ -36,5 +42,5 @@ app.get('/events', (req, res) => {
 })
 
 app.listen(4005, () => {
-  console.log("Listening on port 4005")
+  console.log("Listening on port 4005, sending to ", postsUrl, commentsUrl, queryUrl, moderationUrl)
 })
