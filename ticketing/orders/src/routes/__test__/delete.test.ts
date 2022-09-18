@@ -18,7 +18,7 @@ it('returns a 404 if the order is not found', async () => {
 it('returns a 401 if the user does not own an order', async () => { 
   const title = 'concert'
   const price = 20
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString();
 
   const ticket = Ticket.build({
     id: ticketId,
@@ -45,7 +45,7 @@ it('returns a 401 if the user does not own an order', async () => {
 it('returns the order if the order is found and it has a status of cancelled', async () => { 
   const title = 'concert'
   const price = 20
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString();
 
 
   const ticket = Ticket.build({
@@ -77,7 +77,7 @@ it('returns the order if the order is found and it has a status of cancelled', a
 it('emits a order cancelled event', async () => {
   const title = 'concert'
   const price = 20
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString();
 
   const ticket = Ticket.build({
     id: ticketId,

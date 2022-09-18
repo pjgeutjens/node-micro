@@ -16,12 +16,14 @@ interface TicketDoc extends Document {
   price: number;
   userId: string;
   version: number;
+  orderId?: string;
 }
 
 const ticketSchema = new Schema({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   userId: { type: String, required: true },
+  orderId: { type: String, required: false },
 }, {
   toJSON: {
     transform(doc, ret) {

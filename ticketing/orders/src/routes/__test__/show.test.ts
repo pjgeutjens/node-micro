@@ -17,7 +17,7 @@ it('returns a 401 if the user does not own an order', async () => {
   const price = 20
 
   const ticket = Ticket.build({
-    title, price
+    title, price, id: new mongoose.Types.ObjectId().toHexString()
   })
   await ticket.save()
 
@@ -42,7 +42,7 @@ it('returns the order if the order is found', async () => {
   const price = 20
 
   const ticket = Ticket.build({
-    title, price
+    title, price, id: new mongoose.Types.ObjectId().toHexString()
   })
   await ticket.save()
 

@@ -48,7 +48,7 @@ it('returns an error if the ticket does not exist', async () => {
 });
 
 it('returns an error if the ticket is already reserved', async () => { 
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString()
   const ticket = Ticket.build({
     id: ticketId,
     title: 'concert',
@@ -79,7 +79,7 @@ it('reserves a ticket', async () => {
 
   const price = 20
   const title = 'concert'
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString()
 
   const ticket = Ticket.build({
     id: ticketId,
@@ -100,7 +100,7 @@ it('reserves a ticket', async () => {
 })
 
 it('publishes an event', async () => {
-  const ticketId = new mongoose.Types.ObjectId().toString('hex')
+  const ticketId = new mongoose.Types.ObjectId().toHexString()
   const ticket = Ticket.build({
     id: ticketId,
     title: 'concert', price: 20

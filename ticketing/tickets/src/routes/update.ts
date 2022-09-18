@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { body } from 'express-validator'
-import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@leapconsulting/common'
+import { BadRequestError, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@leapconsulting/common'
 import { Ticket } from '../models/ticket'
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher'
 import { natsWrapper } from '../nats-wrapper'
@@ -15,7 +15,11 @@ validateRequest, async (req: Request, res: Response) => {
   const ticket = await Ticket.findById(req.params.id)
 
   if (!ticket) {
-    return new NotFoundError()
+    throw new NotFoundError();
+  }
+
+  if (ticket.orderId) {
+    throw new BadRequestError('Cannot edit a reserved ticket');
   }
 
   if (ticket.userId !== req.currentUser!.id) {
